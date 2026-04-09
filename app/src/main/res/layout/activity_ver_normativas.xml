@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#0D1B2A">
 
-    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,29 +18,29 @@
             android:layout_height="40dp"
             android:background="#2196F3"
             android:layout_marginEnd="12dp"/>
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ver Normativas"
+            android:text="Normativas y Decretos"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"/>
-
     </LinearLayout>
 
-    <!-- Divider azul -->
     <View
         android:layout_width="40dp"
         android:layout_height="3dp"
         android:background="#2196F3"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,7 +52,6 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Lista de normativas -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,10 +66,9 @@
 
     </ScrollView>
 
-    <!-- Botón volver -->
     <Button
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="52dp"
         android:text="VOLVER"
         android:textColor="#FFFFFF"
         android:backgroundTint="#1A2D42"

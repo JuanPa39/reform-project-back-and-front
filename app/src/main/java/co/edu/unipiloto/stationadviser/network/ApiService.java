@@ -36,25 +36,32 @@ public interface ApiService {
 
     // Disponibilidad
     @GET("disponibilidad")
-    Call<DisponibilidadResponse> getDisponibilidad(@Query("combustible") String combustible);
+    Call<DisponibilidadResponse> getDisponibilidad(
+            @Query("combustible") String combustible,
+            @Query("tipoVehiculo") String tipoVehiculo,
+            @Query("cantidad") Double cantidad
+    );
 
     // Notificaciones
     @GET("notificaciones")
     Call<List<NotificacionResponse>> getNotificaciones();
 
     @POST("notificaciones")
-    Call<Void> enviarNotificacion(@Body NotificacionRequest request);
+    Call<NotificacionResponse> enviarNotificacion(@Body NotificacionRequest request);
 
     // Ventas
     @GET("ventas/historial")
     Call<List<VentaResponse>> getHistorialVentas();
 
     @POST("ventas")
-    Call<Void> registrarVenta(@Body VentaRequest request);
+    Call<VentaResponse> registrarVenta(@Body VentaRequest request);  // ← CAMBIADO
 
     // Inventario
     @POST("inventario")
-    Call<Void> registrarInventario(@Body InventarioRequest request);
+    Call<InventarioResponse> registrarInventario(@Body InventarioRequest request);
+
+    @GET("inventario/disponibilidad")
+    Call<List<DisponibilidadResponse>> getDisponibilidad();
 
     // Normativas
     @GET("normativas")

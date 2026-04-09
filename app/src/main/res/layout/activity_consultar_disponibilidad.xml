@@ -1,9 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
     android:background="#1A2E4A">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <TextView
         android:text="Consultar Disponibilidad"
@@ -13,33 +21,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <!-- Spinner para tipo de combustible -->
     <TextView
-        android:text="Tipo de combustible:"
+        android:text="Tipo de Combustible"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+
     <Spinner
         android:id="@+id/spinnerTipo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="16dp"/>
 
-    <!-- Spinner para tipo de vehículo -->
     <TextView
-        android:text="Tipo de vehículo:"
+        android:text="Tipo de Vehículo"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -48,41 +47,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="16dp"/>
 
-    <!-- Campo para litros -->
     <TextView
-        android:text="Litros a consultar:"
+        android:text="Galones a comprar"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/editLitros"
-        android:hint="Ej: 10.5"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#B0BEC5"
+        android:id="@+id/editGalones"
+        android:hint="Ej: 10"
         android:inputType="numberDecimal"
         android:backgroundTint="#FFFFFF"
-        android:layout_marginBottom="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"/>
 
     <Button
         android:id="@+id/buttonConsultar"
         android:text="Consultar"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="52dp"
+        android:backgroundTint="#2196F3"/>
 
     <TextView
         android:id="@+id/textResultado"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Resultado"
+        android:textColor="#FFFFFF"
+        android:background="#0D1B2A"
+        android:padding="16dp"
+        android:layout_marginTop="20dp"
+        android:lineSpacingExtra="4dp"/>
 
 </LinearLayout>

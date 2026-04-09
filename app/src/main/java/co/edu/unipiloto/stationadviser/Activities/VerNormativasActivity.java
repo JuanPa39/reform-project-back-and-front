@@ -6,9 +6,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-
+import android.graphics.Typeface;
 import java.util.List;
-
 import co.edu.unipiloto.stationadviser.R;
 import co.edu.unipiloto.stationadviser.network.ApiClient;
 import co.edu.unipiloto.stationadviser.network.ApiService;
@@ -50,70 +49,61 @@ public class VerNormativasActivity extends AppCompatActivity {
                 mostrarLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
                     List<NormativaResponse> normativas = response.body();
-
                     if (normativas.isEmpty()) {
-                        TextView tvVacio = new TextView(VerNormativasActivity.this);
-                        tvVacio.setText("No hay normativas registradas.");
-                        tvVacio.setTextColor(0xFFCCCCCC);
-                        tvVacio.setPadding(16, 16, 16, 16);
-                        contenedorNormativas.addView(tvVacio);
+                        TextView vacio = new TextView(VerNormativasActivity.this);
+                        vacio.setText("No hay normativas registradas");
+                        vacio.setTextColor(0xFFAAAAAA);
+                        contenedorNormativas.addView(vacio);
                         return;
                     }
-
                     for (NormativaResponse n : normativas) {
                         CardView card = new CardView(VerNormativasActivity.this);
-                        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                         );
-                        cardParams.setMargins(0, 0, 0, 16);
-                        card.setLayoutParams(cardParams);
+                        params.setMargins(0, 0, 0, 12);
+                        card.setLayoutParams(params);
                         card.setCardBackgroundColor(0xFF1A2D42);
                         card.setRadius(16f);
                         card.setCardElevation(4f);
 
                         LinearLayout layout = new LinearLayout(VerNormativasActivity.this);
                         layout.setOrientation(LinearLayout.VERTICAL);
-                        layout.setPadding(32, 24, 32, 24);
+                        layout.setPadding(28, 20, 28, 20);
 
-                        TextView tvTitulo = new TextView(VerNormativasActivity.this);
-                        tvTitulo.setText(n.getNombre());
-                        tvTitulo.setTextColor(0xFFFFFFFF);
-                        tvTitulo.setTextSize(15f);
-                        tvTitulo.setPadding(0, 0, 0, 8);
+                        TextView titulo = new TextView(VerNormativasActivity.this);
+                        titulo.setText(n.getNombre());
+                        titulo.setTextColor(0xFFFFFFFF);
+                        titulo.setTextSize(16f);
+                        titulo.setTypeface(null, Typeface.BOLD);  // ← CORREGIDO
 
-                        TextView tvDescripcion = new TextView(VerNormativasActivity.this);
-                        tvDescripcion.setText(n.getDescripcion());
-                        tvDescripcion.setTextColor(0xFFAAAAAA);
-                        tvDescripcion.setTextSize(13f);
-                        tvDescripcion.setPadding(0, 0, 0, 8);
+                        TextView descripcion = new TextView(VerNormativasActivity.this);
+                        descripcion.setText(n.getDescripcion());
+                        descripcion.setTextColor(0xFFCCCCCC);
+                        descripcion.setTextSize(13f);
+                        descripcion.setPadding(0, 8, 0, 8);
 
-                        TextView tvFecha = new TextView(VerNormativasActivity.this);
-                        tvFecha.setText("Vigente desde: " + n.getFechaInicio());
-                        tvFecha.setTextColor(0xFF2196F3);
-                        tvFecha.setTextSize(12f);
+                        TextView fechas = new TextView(VerNormativasActivity.this);
+                        fechas.setText("Vigencia: " + n.getFechaInicio() + " - " + n.getFechaFin());
+                        fechas.setTextColor(0xFF2196F3);
+                        fechas.setTextSize(11f);
 
-                        layout.addView(tvTitulo);
-                        layout.addView(tvDescripcion);
-                        layout.addView(tvFecha);
+                        layout.addView(titulo);
+                        layout.addView(descripcion);
+                        layout.addView(fechas);
                         card.addView(layout);
                         contenedorNormativas.addView(card);
                     }
-                } else {
-                    TextView tvError = new TextView(VerNormativasActivity.this);
-                    tvError.setText("Error al cargar normativas");
-                    tvError.setTextColor(0xFFEF5350);
-                    contenedorNormativas.addView(tvError);
                 }
             }
-
             @Override
             public void onFailure(Call<List<NormativaResponse>> call, Throwable t) {
                 mostrarLoading(false);
-                TextView tvError = new TextView(VerNormativasActivity.this);
-                tvError.setText("Error de conexión: " + t.getMessage());
-                tvError.setTextColor(0xFFEF5350);
-                contenedorNormativas.addView(tvError);
+                TextView error = new TextView(VerNormativasActivity.this);
+                error.setText("Error: " + t.getMessage());
+                error.setTextColor(0xFFEF5350);
+                contenedorNormativas.addView(error);
             }
         });
     }

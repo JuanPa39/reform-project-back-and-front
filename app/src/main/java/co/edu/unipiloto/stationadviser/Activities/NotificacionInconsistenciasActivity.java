@@ -107,24 +107,28 @@ public class NotificacionInconsistenciasActivity extends AppCompatActivity {
         mostrarLoading(true);
 
         NotificacionRequest request = new NotificacionRequest(estacionSeleccionadaId, inconsistencia);
-        Call<Void> call = apiService.enviarNotificacion(request);
-        call.enqueue(new Callback<Void>() {
+        Call<NotificacionResponse> call = apiService.enviarNotificacion(request);  // ← Cambiado de Void a NotificacionResponse
+        call.enqueue(new Callback<NotificacionResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<NotificacionResponse> call, Response<NotificacionResponse> response) {
                 mostrarLoading(false);
-                if (response.isSuccessful()) {
-                    Toast.makeText(NotificacionInconsistenciasActivity.this, "Notificación enviada", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(NotificacionInconsistenciasActivity.this,
+                            "✅ Notificación enviada: " + response.body().getEstado(), Toast.LENGTH_SHORT).show();
                     etInconsistencia.setText("");
                     cargarHistorial();
                 } else {
-                    Toast.makeText(NotificacionInconsistenciasActivity.this, "Error al enviar", Toast.LENGTH_SHORT).show();
+                    String error = response.code() + ": " + response.message();
+                    Toast.makeText(NotificacionInconsistenciasActivity.this,
+                            "Error al enviar: " + error, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<NotificacionResponse> call, Throwable t) {
                 mostrarLoading(false);
-                Toast.makeText(NotificacionInconsistenciasActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(NotificacionInconsistenciasActivity.this,
+                        "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

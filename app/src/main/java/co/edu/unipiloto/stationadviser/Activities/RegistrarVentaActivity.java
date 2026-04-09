@@ -3,12 +3,12 @@ package co.edu.unipiloto.stationadviser.Activities;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-
 import co.edu.unipiloto.stationadviser.R;
 import co.edu.unipiloto.stationadviser.network.ApiClient;
 import co.edu.unipiloto.stationadviser.network.ApiService;
 import co.edu.unipiloto.stationadviser.network.TokenManager;
 import co.edu.unipiloto.stationadviser.network.models.VentaRequest;
+import co.edu.unipiloto.stationadviser.network.models.VentaResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,7 +16,8 @@ import retrofit2.Response;
 public class RegistrarVentaActivity extends AppCompatActivity {
 
     private Spinner spinnerTipo;
-    private EditText editLitros, editPrecio;
+    private EditText editGalones;
+    private TextView textPrecioActual;
     private Button buttonGuardar;
     private ProgressBar progressBar;
 
@@ -32,8 +33,8 @@ public class RegistrarVentaActivity extends AppCompatActivity {
         apiService = ApiClient.getClientWithToken(tokenManager.getToken()).create(ApiService.class);
 
         spinnerTipo = findViewById(R.id.spinnerTipo);
-        editLitros = findViewById(R.id.editLitros);
-        editPrecio = findViewById(R.id.editPrecio);
+        editGalones = findViewById(R.id.editGalones);
+        textPrecioActual = findViewById(R.id.textPrecioActual);
         buttonGuardar = findViewById(R.id.buttonGuardar);
         progressBar = findViewById(R.id.progressBar);
 
@@ -47,39 +48,53 @@ public class RegistrarVentaActivity extends AppCompatActivity {
 
     private void registrarVenta() {
         String tipo = spinnerTipo.getSelectedItem().toString();
-        String litrosStr = editLitros.getText().toString();
-        String precioStr = editPrecio.getText().toString();
+        String galonesStr = editGalones.getText().toString();
 
-        if (litrosStr.isEmpty() || precioStr.isEmpty()) {
-            Toast.makeText(this, "Complete todos los campos", Toast.LENGTH_SHORT).show();
+        if (galonesStr.isEmpty()) {
+            Toast.makeText(this, "Ingrese galones vendidos", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        double litros = Double.parseDouble(litrosStr);
-        double precio = Double.parseDouble(precioStr);
-        double montoTotal = litros * precio;
-
+        double galones = Double.parseDouble(galonesStr);
         mostrarLoading(true);
 
-        VentaRequest request = new VentaRequest(tipo, litros, precio, montoTotal);
-        Call<Void> call = apiService.registrarVenta(request);
-        call.enqueue(new Callback<Void>() {
+        VentaRequest request = new VentaRequest(tipo, galones);
+        Call<VentaResponse> call = apiService.registrarVenta(request);
+
+        call.enqueue(new Callback<VentaResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<VentaResponse> call, Response<VentaResponse> response) {
                 mostrarLoading(false);
-                if (response.isSuccessful()) {
-                    Toast.makeText(RegistrarVentaActivity.this, "Venta registrada", Toast.LENGTH_SHORT).show();
-                    editLitros.setText("");
-                    editPrecio.setText("");
+                if (response.isSuccessful() && response.body() != null) {
+                    VentaResponse data = response.body();
+                    String mensaje = String.format("✅ Venta registrada!\n" +
+                                    "Estación: %s\n" +
+                                    "Combustible: %s\n" +
+                                    "Galones: %.2f\n" +
+                                    "Precio unitario: $%.2f\n" +
+                                    "Total: $%.2f\n" +
+                                    "Fecha: %s",
+                            data.getEstacionNombre(), data.getCombustibleNombre(),
+                            data.getCantidad(), data.getPrecioUnitario(),
+                            data.getMontoTotal(), data.getFecha());
+
+                    Toast.makeText(RegistrarVentaActivity.this, mensaje, Toast.LENGTH_LONG).show();
+                    editGalones.setText("");
                 } else {
-                    Toast.makeText(RegistrarVentaActivity.this, "Error al registrar venta", Toast.LENGTH_SHORT).show();
+                    String error = "Error al registrar venta";
+                    try {
+                        if (response.errorBody() != null) {
+                            error = response.errorBody().string();
+                        }
+                    } catch (Exception e) {}
+                    Toast.makeText(RegistrarVentaActivity.this, error, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<VentaResponse> call, Throwable t) {
                 mostrarLoading(false);
-                Toast.makeText(RegistrarVentaActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegistrarVentaActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

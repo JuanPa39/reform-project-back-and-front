@@ -119,15 +119,15 @@ public class RoleBaseActivity extends AppCompatActivity {
                     button10.setVisibility(View.VISIBLE);
 
                     button1.setText("Registrar estación");
-                    button2.setText("Consultar reportes");
+                    button2.setText("Consultar notificaciones");
                     button3.setText("Ver estaciones");
                     button4.setText("Registrar precio combustible");
                     button5.setText("Ver precios combustible");
-                    button6.setText("Registrar inventario disponible");
-                    button7.setText("Registrar venta de combustible");
-                    button8.setText("Consultar historial de ventas");
-                    button9.setText("Generar reporte mensual");
-                    button10.setText("Consultar reportes");
+                    button6.setText("Registrar inventario");
+                    button7.setText("Registrar venta");
+                    button8.setText("Historial ventas");
+                    button9.setText("Reporte mensual");
+                    button10.setText("Ver normativas");
 
                     button1.setOnClickListener(v -> startActivity(new Intent(this, RegistrarEstacionActivity.class)));
                     button2.setOnClickListener(v -> startActivity(new Intent(this, ConsultarNotificacionActivity.class)));
@@ -138,6 +138,7 @@ public class RoleBaseActivity extends AppCompatActivity {
                     button7.setOnClickListener(v -> startActivity(new Intent(this, RegistrarVentaActivity.class)));
                     button8.setOnClickListener(v -> startActivity(new Intent(this, HistorialVentasActivity.class)));
                     button9.setOnClickListener(v -> startActivity(new Intent(this, ReporteMensualActivity.class)));
+                    button10.setOnClickListener(v -> startActivity(new Intent(this, VerNormativasActivity.class)));
                     break;
 
                 case "equipo técnico":
@@ -171,13 +172,10 @@ public class RoleBaseActivity extends AppCompatActivity {
                 case "distribuidor":
                     button1.setVisibility(View.VISIBLE);
                     button2.setVisibility(View.VISIBLE);
-                    button3.setVisibility(View.VISIBLE);
                     button1.setText("Ver precios combustible");
-                    button2.setText("Consultar historial de ventas");
-                    button3.setText("Consultar disponibilidad");
+                    button2.setText("Consultar disponibilidad");
                     button1.setOnClickListener(v -> startActivity(new Intent(this, ConsultarPrecioActivity.class)));
-                    button2.setOnClickListener(v -> startActivity(new Intent(this, HistorialVentasActivity.class)));
-                    button3.setOnClickListener(v -> startActivity(new Intent(this, ConsultarDisponibilidadActivity.class)));
+                    button2.setOnClickListener(v -> startActivity(new Intent(this, ConsultarDisponibilidadActivity.class)));
                     break;
 
                 default:
